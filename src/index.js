@@ -1,6 +1,7 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, Notification } = require("electron");
 const path = require("node:path");
 const { spawn } = require("child_process");
+const { autoUpdater } = require("electron-updater");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -73,6 +74,28 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
+  });
+
+  app.on("ready", () => {
+    autoUpdater.checkForUpdatesAndNotify();
+    app.setAppUserModelId(process.execPath);
+
+    autoUpdater.on("update-available", () => {
+      // Notify your app about available updates
+      console.log("update available");
+
+      const NOTIFICATION_TITLE = "Update Available";
+      const NOTIFICATION_BODY = "A new version is ready to install.";
+      new Notification({
+        title: NOTIFICATION_TITLE,
+        body: NOTIFICATION_BODY,
+      }).show();
+    });
+
+    autoUpdater.on("update-downloaded", () => {
+      // Handle downloaded updates (e.g., prompt user to install)
+      console.log("update downloaded");
+    });
   });
 });
 

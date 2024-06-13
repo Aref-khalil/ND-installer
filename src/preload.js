@@ -2,7 +2,7 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 // Preload Script
-const { ipcRenderer } = require("electron");
+const { ipcRenderer, Notification } = require("electron");
 
 const config = require("./resources/envConfig.json");
 const { spawn, exec } = require("child_process");
@@ -225,57 +225,12 @@ verifyServer().then((isRunning) => {
       });
   }
 });
-//}
-// })
-// .catch((error) => {
-//   console.error("Server is not running on port 8401", error);
-// });
 
-// const config =
-//   process.env.NODE_ENV != "development"
-//     ? "{{PRODUCTION_ENV_URL}}"
-//     : require("./resources/envConfig.json");
+// const NOTIFICATION_TITLE = "Update Available";
+// const NOTIFICATION_BODY = "A new version is ready to install.";
+// new Notification(NOTIFICATION_TITLE, { body: NOTIFICATION_BODY });
 
-// console.log("config", config);
-// const url =
-//   process.env.NODE_ENV != "development"
-//     ? config.envUrl
-//     : "http://localhost:8401/";
-
-// console.log("url", url);
-
-// const mapDrive = async () => {
-//   console.log("Starting setup...");
-//   console.log("Mapping nexus drive", url);
-//   const bat = spawn(".\\resources\\setup.bat", [url]);
-
-//   console.log("bat", bat);
-
-//   console.log("Running setup.bat");
-//   bat.stdout.on("data", (data) => {
-//     console.log("on data", data.toString());
-//     if (data.toString().includes("Mapped:"))
-//       process.env.Mapped_Drive = data.toString().split("Mapped:")[1].trim();
-//     console.log("process.env.Mapped_Drive", process.env.Mapped_Drive);
-//   });
-
-//   bat.stderr.on("data", (data) => {
-//     // Handle errors or show notifications
-//     console.error("on error", data.toString());
-//   });
-
-//   bat.on("exit", (code) => {
-//     console.log(`script completed ${code}`);
-//   });
-// };
-
-// // console.log("preload.js loaded");
-// // contextBridge.exposeInMainWorld("versions", {
-// //   node: () => process.versions.node,
-// //   chrome: () => process.versions.chrome,
-// //   electron: () => process.versions.electron,
-
-// //   // You can also expose variables, not just functions
-// // });
-
-// mapDrive() ;
+// new Notification({
+//   title: NOTIFICATION_TITLE,
+//   body: NOTIFICATION_BODY,
+// }).show();
